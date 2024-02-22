@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:sensors_plus/sensors_plus.dart';
-import 'package:pc_controller/settings/connection.dart';
+import 'package:pc_controller/api/connection_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
@@ -19,7 +19,7 @@ class _MagicPointerScreenState extends State<MagicPointerScreen> {
   List<double> prevPos = List.empty(growable: true);
 
   void sendPos(Map<String, dynamic> data) async {
-    String url = Connection.getMouseSetterApiUrl();
+    String url = ConnectionStrings.getMouseSetterApiUrl();
     accelerometerSubscription.pause();
     await Dio().post(url, data: data);
     accelerometerSubscription.resume();
@@ -27,7 +27,7 @@ class _MagicPointerScreenState extends State<MagicPointerScreen> {
 
   void setListener() {
     accelerometerSubscription = userAccelerometerEvents.listen((event) {
-      if(prevPos.isEmpty) {
+      if (prevPos.isEmpty) {
         prevPos = [event.x, event.y, event.z];
       }
       currentPos.clear();

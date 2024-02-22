@@ -1,9 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:pc_controller/components/custom_field.dart';
 import 'package:pc_controller/components/main_button.dart';
-import 'package:pc_controller/settings/connection.dart';
+import 'package:pc_controller/api/connection_strings.dart';
 
 class VideoControl extends StatelessWidget {
   const VideoControl({super.key});
@@ -23,78 +22,87 @@ class VideoControl extends StatelessWidget {
     void playPause() async {
       var command = templateVideo;
       command["command"] = "playpause";
-      await Dio().post(Connection.getVideoControlApiUrl(), data: command);
+      await Dio()
+          .post(ConnectionStrings.getVideoControlApiUrl(), data: command);
     }
 
     void advance() async {
       var command = templateVideo;
       command["command"] = "advance";
-      await Dio().post(Connection.getVideoControlApiUrl(), data: command);
+      await Dio()
+          .post(ConnectionStrings.getVideoControlApiUrl(), data: command);
     }
 
     void goBack() async {
       var command = templateVideo;
       command["command"] = "goback";
-      await Dio().post(Connection.getVideoControlApiUrl(), data: templateVideo);
+      await Dio()
+          .post(ConnectionStrings.getVideoControlApiUrl(), data: templateVideo);
     }
 
     void goNext() async {
       var command = templateVideo;
       command["command"] = "next";
-      await Dio().post(Connection.getVideoControlApiUrl(), data: templateVideo);
+      await Dio()
+          .post(ConnectionStrings.getVideoControlApiUrl(), data: templateVideo);
     }
 
     void goPrev() async {
       var command = templateVideo;
       command["command"] = "prev";
-      await Dio().post(Connection.getVideoControlApiUrl(), data: templateVideo);
+      await Dio()
+          .post(ConnectionStrings.getVideoControlApiUrl(), data: templateVideo);
     }
 
     void goEnter() async {
       var command = templateVideo;
       command["command"] = "enter";
-      await Dio().post(Connection.getVideoControlApiUrl(), data: templateVideo);
+      await Dio()
+          .post(ConnectionStrings.getVideoControlApiUrl(), data: templateVideo);
     }
 
     void usingLB() async {
       var command = templateVideo;
       command["command"] = "lb";
-      await Dio().post(Connection.getVideoControlApiUrl(), data: templateVideo);
+      await Dio()
+          .post(ConnectionStrings.getVideoControlApiUrl(), data: templateVideo);
     }
 
     void usingRB() async {
       var command = templateVideo;
       command["command"] = "rb";
-      await Dio().post(Connection.getVideoControlApiUrl(), data: templateVideo);
+      await Dio()
+          .post(ConnectionStrings.getVideoControlApiUrl(), data: templateVideo);
     }
 
     void goFullScreen() async {
       var command = templateVideo;
       command["command"] = "fullscreen";
-      await Dio().post(Connection.getVideoControlApiUrl(), data: command);
+      await Dio()
+          .post(ConnectionStrings.getVideoControlApiUrl(), data: command);
     }
 
     void volumeUp() async {
       var command = templateVideo;
       command["command"] = "up";
-      await Dio().post(Connection.getSetVolumeApiUrl(), data: command);
+      await Dio().post(ConnectionStrings.getSetVolumeApiUrl(), data: command);
     }
 
     void volumeMute() async {
       var command = templateVideo;
       command["command"] = "mute";
-      await Dio().post(Connection.getSetVolumeApiUrl(), data: command);
+      await Dio().post(ConnectionStrings.getSetVolumeApiUrl(), data: command);
     }
 
     void volumeDown() async {
       var command = templateVideo;
       command["command"] = "down";
-      await Dio().post(Connection.getSetVolumeApiUrl(), data: command);
+      await Dio().post(ConnectionStrings.getSetVolumeApiUrl(), data: command);
     }
 
     void sendText() async {
       var data = {"fromUser": "AndroidDevice", "query": textController.text};
-      await Dio().post(Connection.getTypeApiUrl(), data: data);
+      await Dio().post(ConnectionStrings.getTypeApiUrl(), data: data);
       textController.text = "";
     }
 

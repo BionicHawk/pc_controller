@@ -1,4 +1,4 @@
-class Connection {
+class ConnectionStrings {
   static String _hostname = "";
   static const int _port = 3001;
 
@@ -29,5 +29,4 @@ class Connection {
   static String getMouseSetterApiUrl() {
     return "${_resolveHostname()}set/mouse";
   }
-
 }

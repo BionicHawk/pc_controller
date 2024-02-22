@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pc_controller/api/api.dart';
 import 'package:pc_controller/components/custom_field.dart';
 import 'package:pc_controller/components/main_button.dart';
-import 'package:dio/dio.dart';
-import 'package:pc_controller/settings/connection.dart';
 
 class SendPage extends StatelessWidget {
   const SendPage({super.key});
@@ -14,12 +13,16 @@ class SendPage extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     void sendUrl() async {
-      const deviceName = "AndroidDevice";
-      final data = {"fromUser": deviceName, "url": textEditingController.text};
-      await Dio().post(Connection.getOpenWebApiUrl(), data: data);
-      textEditingController.text = "";
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
+      switch (await Api.sendText(textEditingController.text)) {
+        case ResponseTypeToken.ok:
+          textEditingController.text = "";
+          Navigator.of(context).pop();
+          break;
+        case ResponseTypeToken.serverError:
+          break;
+        case ResponseTypeToken.clientError:
+          break;
+      }
     }
 
     return Scaffold(

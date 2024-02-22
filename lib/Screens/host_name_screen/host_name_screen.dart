@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pc_controller/components/custom_field.dart';
 import 'package:pc_controller/components/main_button.dart';
-import 'package:pc_controller/settings/connection.dart';
+import 'package:pc_controller/api/connection_strings.dart';
 
 class HostNameScreen extends StatelessWidget {
   const HostNameScreen({super.key});
@@ -13,7 +13,7 @@ class HostNameScreen extends StatelessWidget {
     const verticalGap = Padding(padding: EdgeInsets.symmetric(vertical: 8));
 
     void changeHostname() {
-      Connection.setHostName(hostnameLabel.text);
+      ConnectionStrings.setHostName(hostnameLabel.text);
       Navigator.of(context).pop();
     }
 
