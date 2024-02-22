@@ -10,13 +10,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Getting a boilerplateless access to the MediaQuery
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+
+    final Brightness brightness = mediaQuery.platformBrightness;
+
     return MaterialApp(
-      theme: ThemeData(
-          useMaterial3: true,
-          brightness: MediaQuery.of(context).platformBrightness == Brightness.light
-              ? Brightness.light
-              : Brightness.dark),
-          debugShowCheckedModeBanner: false,
+      theme: ThemeData(useMaterial3: true, brightness: brightness),
+      debugShowCheckedModeBanner: false,
       home: const Home(),
     );
   }
