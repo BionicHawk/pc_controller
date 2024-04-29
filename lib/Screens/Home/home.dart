@@ -46,7 +46,7 @@ class Home extends StatelessWidget {
           value: "Abrir una página Web", onPress: navigateToSendWebPage),
       NavToButton(
           value: "Controles de vídeo", onPress: navigateToVideoControls),
-      NavToButton(value: "Usar Puntero Mágico", onPress: () {})
+      NavToButton(value: "Usar Puntero Mágico", onPress: navigateToMagicPointerScreen)
     ];
 
     return Scaffold(

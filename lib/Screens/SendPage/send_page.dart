@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pc_controller/api/api.dart';
 import 'package:pc_controller/components/custom_field.dart';
 import 'package:pc_controller/components/main_button.dart';
+import 'package:pc_controller/components/alerts.dart';
 
 class SendPage extends StatelessWidget {
   const SendPage({super.key});
@@ -13,14 +14,16 @@ class SendPage extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     void sendUrl() async {
-      switch (await Api.sendText(textEditingController.text)) {
+      switch (await Api.sendUrl(textEditingController.text)) {
         case ResponseTypeToken.ok:
           textEditingController.text = "";
           Navigator.of(context).pop();
           break;
         case ResponseTypeToken.serverError:
+          errorAlert(context, "No se pudo enviar", "blblblb");
           break;
         case ResponseTypeToken.clientError:
+          errorAlert(context, "No se pudo enviar", "blblblb");
           break;
       }
     }

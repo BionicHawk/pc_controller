@@ -7,11 +7,6 @@ import 'package:pc_controller/api/connection_strings.dart';
 class VideoControl extends StatelessWidget {
   const VideoControl({super.key});
 
-  static var templateVideo = {
-    "fromUser": "AndroidDevice",
-    "command": "playpause"
-  };
-
   static TextEditingController textController = TextEditingController();
 
   @override
@@ -20,84 +15,60 @@ class VideoControl extends StatelessWidget {
     const verticalGap = Padding(padding: EdgeInsets.symmetric(vertical: 8));
 
     void playPause() async {
-      var command = templateVideo;
-      command["command"] = "playpause";
       await Dio()
-          .post(ConnectionStrings.getVideoControlApiUrl(), data: command);
+          .post(ConnectionStrings.toggleVideoPlayPauseApiUrl());
     }
 
     void advance() async {
-      var command = templateVideo;
-      command["command"] = "advance";
       await Dio()
-          .post(ConnectionStrings.getVideoControlApiUrl(), data: command);
+          .post(ConnectionStrings.forwardVideoApiUrl());
     }
 
     void goBack() async {
-      var command = templateVideo;
-      command["command"] = "goback";
       await Dio()
-          .post(ConnectionStrings.getVideoControlApiUrl(), data: templateVideo);
+          .post(ConnectionStrings.rewindVideoApiUrl());
     }
 
     void goNext() async {
-      var command = templateVideo;
-      command["command"] = "next";
       await Dio()
-          .post(ConnectionStrings.getVideoControlApiUrl(), data: templateVideo);
+          .post(ConnectionStrings.nextTrackApiUrl());
     }
 
     void goPrev() async {
-      var command = templateVideo;
-      command["command"] = "prev";
       await Dio()
-          .post(ConnectionStrings.getVideoControlApiUrl(), data: templateVideo);
+          .post(ConnectionStrings.prevTrackApiUrl());
     }
 
     void goEnter() async {
-      var command = templateVideo;
-      command["command"] = "enter";
       await Dio()
-          .post(ConnectionStrings.getVideoControlApiUrl(), data: templateVideo);
+          .post(ConnectionStrings.enterApiUrl());
     }
 
     void usingLB() async {
-      var command = templateVideo;
-      command["command"] = "lb";
       await Dio()
-          .post(ConnectionStrings.getVideoControlApiUrl(), data: templateVideo);
+          .post(ConnectionStrings.lbApiUrl());
     }
 
     void usingRB() async {
-      var command = templateVideo;
-      command["command"] = "rb";
       await Dio()
-          .post(ConnectionStrings.getVideoControlApiUrl(), data: templateVideo);
+          .post(ConnectionStrings.rbApiUrl());
     }
 
     void goFullScreen() async {
-      var command = templateVideo;
-      command["command"] = "fullscreen";
       await Dio()
-          .post(ConnectionStrings.getVideoControlApiUrl(), data: command);
+          .post(ConnectionStrings.toggleFullscreenVideoApiUrl());
     }
 
     void volumeUp() async {
-      var command = templateVideo;
-      command["command"] = "up";
-      await Dio().post(ConnectionStrings.getSetVolumeApiUrl(), data: command);
+      await Dio().post(ConnectionStrings.setVolumeUpApiUrl());
     }
 
     void volumeMute() async {
-      var command = templateVideo;
-      command["command"] = "mute";
-      await Dio().post(ConnectionStrings.getSetVolumeApiUrl(), data: command);
+      await Dio().post(ConnectionStrings.setVolumeMuteApiUrl());
     }
 
     void volumeDown() async {
-      var command = templateVideo;
-      command["command"] = "down";
-      await Dio().post(ConnectionStrings.getSetVolumeApiUrl(), data: command);
+      await Dio().post(ConnectionStrings.setVolumeDownApiUrl());
     }
 
     void sendText() async {

@@ -5,10 +5,15 @@ enum ResponseTypeToken { ok, serverError, clientError }
 
 class Api {
   static final Dio _client = Dio();
-  static const String _clientType = "AndroidDevice";
+  static const String _clientType = "MobileDevice";
 
-  static Future<ResponseTypeToken> sendText(String value) async {
+  static Future<ResponseTypeToken> sendUrl(String value) async {
     final data = {"fromUser": _clientType, "url": value};
+
+    if (ConnectionStrings.getHostName().isEmpty) {
+      return ResponseTypeToken.clientError;
+    }
+
     final response =
         await _client.post(ConnectionStrings.getOpenWebApiUrl(), data: data);
     ResponseTypeToken responseType = ResponseTypeToken.clientError;
