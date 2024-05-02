@@ -95,8 +95,22 @@ class VideoControl extends StatelessWidget {
 
     void sendText() async {
       var data = {"fromUser": "AndroidDevice", "query": textController.text};
-      await Dio().post(ConnectionStrings.getTypeApiUrl(), data: data);
-      textController.text = "";
+      final token = await Api.sendComplexCommand(ConnectionStrings.getTypeApiUrl(), data);
+
+      switch (token) {
+        case ResponseTypeToken.badRequest:
+          sendBadRequestError();
+          break;
+        case ResponseTypeToken.serverError:
+          sendGenericServerError();
+          break;
+        case ResponseTypeToken.clientError:
+          sendGenericClientError();
+          break;
+        case ResponseTypeToken.ok:
+          textController.text = "";
+          break;
+      }
     }
 
     return Scaffold(

@@ -64,4 +64,29 @@ class Api {
 
   }
 
+  static Future<ResponseTypeToken> sendComplexCommand(String endpoint, Map<String, dynamic> data) async {
+    if (ConnectionStrings.serverHostname.isEmpty) {
+      return ResponseTypeToken.clientError;
+    }
+
+    try {
+      final response = await _client.post(endpoint, data: data);
+      final code = response.statusCode;
+
+      if (code != null) {
+        if (code >= 400 && code < 500) {
+          return ResponseTypeToken.badRequest;
+        }
+        if (code >= 500) {
+          return ResponseTypeToken.serverError;
+        }
+
+        return ResponseTypeToken.ok;
+      }
+      return ResponseTypeToken.badRequest;
+    } catch (exception) {
+      return ResponseTypeToken.clientError;
+    }
+  }
+
 }
