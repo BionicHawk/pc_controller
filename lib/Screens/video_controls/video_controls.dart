@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:pc_controller/api/api.dart';
+import 'package:pc_controller/components/alerts.dart';
 import 'package:pc_controller/components/custom_field.dart';
 import 'package:pc_controller/components/main_button.dart';
 import 'package:pc_controller/api/connection_strings.dart';
@@ -14,61 +16,81 @@ class VideoControl extends StatelessWidget {
     const horizontalGap = Padding(padding: EdgeInsets.symmetric(horizontal: 4));
     const verticalGap = Padding(padding: EdgeInsets.symmetric(vertical: 8));
 
+    void sendGenericClientError() {
+      errorAlert(context, "No se pudo enviar la petición", "Revise que tenga conexión a internet o que la dirección IP sea válida");
+    }
+
+    void sendGenericServerError() {
+      errorAlert(context, "Hubo un problema", "El servidor parece haber tenido un problema interno");
+    }
+
+    void sendBadRequestError() {
+      errorAlert(context, "La petición fue rechazada por el servidor", "Esta petición parece ser que no es válida");
+    }
+
+    void sendBasicCommand(String connectionString) async {
+      final token = await Api.sendBasicControl(connectionString);
+      switch (token) {
+        case ResponseTypeToken.serverError:
+          sendGenericServerError();
+          break;
+        case ResponseTypeToken.badRequest:
+          sendBadRequestError();
+          break;
+        case ResponseTypeToken.clientError:
+          sendGenericClientError();
+          break;
+        case ResponseTypeToken.ok:
+          break;
+      }
+    }
+
     void playPause() async {
-      await Dio()
-          .post(ConnectionStrings.toggleVideoPlayPauseApiUrl());
+      sendBasicCommand(ConnectionStrings.toggleVideoPlayPauseApiUrl());
     }
 
     void advance() async {
-      await Dio()
-          .post(ConnectionStrings.forwardVideoApiUrl());
+      sendBasicCommand(ConnectionStrings.forwardVideoApiUrl());
     }
 
     void goBack() async {
-      await Dio()
-          .post(ConnectionStrings.rewindVideoApiUrl());
+      sendBasicCommand(ConnectionStrings.rewindVideoApiUrl());
     }
 
     void goNext() async {
-      await Dio()
-          .post(ConnectionStrings.nextTrackApiUrl());
+      sendBasicCommand(ConnectionStrings.nextTrackApiUrl());
     }
 
     void goPrev() async {
-      await Dio()
-          .post(ConnectionStrings.prevTrackApiUrl());
+      sendBasicCommand(ConnectionStrings.prevTrackApiUrl());
     }
 
     void goEnter() async {
-      await Dio()
-          .post(ConnectionStrings.enterApiUrl());
+      sendBasicCommand(ConnectionStrings.enterApiUrl());
     }
 
     void usingLB() async {
-      await Dio()
-          .post(ConnectionStrings.lbApiUrl());
+      sendBasicCommand(ConnectionStrings.lbApiUrl());
     }
 
     void usingRB() async {
-      await Dio()
-          .post(ConnectionStrings.rbApiUrl());
+      sendBasicCommand(ConnectionStrings.rbApiUrl());
     }
 
     void goFullScreen() async {
-      await Dio()
-          .post(ConnectionStrings.toggleFullscreenVideoApiUrl());
+      sendBasicCommand(ConnectionStrings.toggleFullscreenVideoApiUrl());
     }
 
     void volumeUp() async {
-      await Dio().post(ConnectionStrings.setVolumeUpApiUrl());
+      sendBasicCommand(ConnectionStrings.setVolumeUpApiUrl());
     }
 
     void volumeMute() async {
-      await Dio().post(ConnectionStrings.setVolumeMuteApiUrl());
+      sendBasicCommand(ConnectionStrings.setVolumeMuteApiUrl());
     }
 
     void volumeDown() async {
-      await Dio().post(ConnectionStrings.setVolumeDownApiUrl());
+      sendBasicCommand(ConnectionStrings.setVolumeDownApiUrl());
     }
 
     void sendText() async {

@@ -20,10 +20,12 @@ class SendPage extends StatelessWidget {
           Navigator.of(context).pop();
           break;
         case ResponseTypeToken.serverError:
-          errorAlert(context, "No se pudo enviar", "blblblb");
+          errorAlert(context, "No se pudo enviar", "El servidor tuvó un problema interno");
           break;
+        case ResponseTypeToken.badRequest:
+          errorAlert(context, "No se pudo enviar", "El servidor no reconoce esta petición");
         case ResponseTypeToken.clientError:
-          errorAlert(context, "No se pudo enviar", "blblblb");
+          errorAlert(context, "No se pudo enviar", "Revise que su conexión sea estable o si la dirección IP es válida");
           break;
       }
     }
