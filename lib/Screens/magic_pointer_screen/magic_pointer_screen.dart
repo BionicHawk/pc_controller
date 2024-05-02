@@ -79,7 +79,7 @@ class _MagicPointerScreenState extends State<MagicPointerScreen> {
   @override
   void dispose() {
     gyroSubscription.cancel();
-    // channelSubscription.cancel();
+    socket.close();
     super.dispose();
   }
 
