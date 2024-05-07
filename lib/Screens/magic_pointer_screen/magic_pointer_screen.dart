@@ -3,9 +3,6 @@ import 'dart:io';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:pc_controller/api/connection_strings.dart';
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
-import 'package:web_socket_channel/io.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 
 class GyroPosition {
   double x;
@@ -14,10 +11,15 @@ class GyroPosition {
 
   GyroPosition(this.x, this.y, this.z);
 
-  void setPosition(double x_pos, double y_pos, double z_pos) {
-    x = x_pos;
-    y = y_pos;
-    z = z_pos;
+  void setPosition(double xPos, double yPos, double zPos) {
+    x = xPos;
+    y = yPos;
+    z = zPos;
+  }
+
+  @override
+  String toString() {
+    return "{x:$x} {y:$y} {z:$z}";
   }
 }
 
@@ -57,16 +59,13 @@ class _MagicPointerScreenState extends State<MagicPointerScreen> {
       double deltaY = current.y - previous.y;
       double deltaZ = current.z - previous.z;
 
-      socket.write("${event.x},${event.y},${event.z}<|EOM|>");
+      GyroPosition deltaPosition = GyroPosition(deltaX, deltaY, deltaZ);
+
+      socket.writeln("/set_pos ${deltaPosition.toString()}");
 
       // channel.sink.add("$deltaX,$deltaY,$deltaZ");
       previous.setPosition(current.x, current.y, current.z);
     });
-    // channelSubscription = channel.stream.listen((event) {
-    //   print(event);
-    // });
-
-
   }
 
   @override
