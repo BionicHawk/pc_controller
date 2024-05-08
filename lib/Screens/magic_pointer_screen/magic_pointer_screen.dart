@@ -32,7 +32,7 @@ class MagicPointerScreen extends StatefulWidget {
 
 class _MagicPointerScreenState extends State<MagicPointerScreen> {
   final Uri wsUri = Uri.parse(ConnectionStrings.getMouseSocketApiUrl());
-  late StreamSubscription<GyroscopeEvent> gyroSubscription;
+  late StreamSubscription<AccelerometerEvent> accEvent;
   late StreamSubscription channelSubscription;
 
   final GyroPosition current = GyroPosition(0, 0, 0);
@@ -52,7 +52,7 @@ class _MagicPointerScreenState extends State<MagicPointerScreen> {
     socket = await Socket.connect(ConnectionStrings.serverHostname,
         ConnectionStrings.mouseTrackerPort);
 
-    gyroSubscription = gyroscopeEvents.listen((event) {
+    accEvent = accelerometerEvents.listen((event) {
       current.setPosition(event.x, event.y, event.z);
 
       double deltaX = current.x - previous.x;
@@ -77,7 +77,7 @@ class _MagicPointerScreenState extends State<MagicPointerScreen> {
 
   @override
   void dispose() {
-    gyroSubscription.cancel();
+    accEvent.cancel();
     socket.close();
     super.dispose();
   }
