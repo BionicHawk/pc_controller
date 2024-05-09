@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:pc_controller/components/main_button.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:pc_controller/api/connection_strings.dart';
 import 'package:flutter/material.dart';
@@ -84,12 +85,38 @@ class _MagicPointerScreenState extends State<MagicPointerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const verticalPaddingValue = 16.0;
+
+    final mediaQuery = MediaQuery.of(context);
+    final buttonWidth = mediaQuery.size.width * 0.3;
+
+    final buttons = [
+      MainButton(
+        width: buttonWidth,
+        function: () {},
+        child: const Text("Botón 1"),),
+      MainButton(width: buttonWidth,
+          function: () {},
+          child: const Text("Botón 2"))
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Magic Pointer"),
         centerTitle: true,
       ),
-      body: const Placeholder()
+      body: Column(
+        children: [
+          const Expanded(child: Column()),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: verticalPaddingValue),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: buttons,
+            ),
+          )
+        ],
+      )
     );
   }
 }
