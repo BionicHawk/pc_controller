@@ -37,17 +37,8 @@ class _MagicPointerScreenState extends State<MagicPointerScreen> {
   late StreamSubscription channelSubscription;
 
   final GyroPosition current = GyroPosition(0, 0, 0);
-  final GyroPosition previous = GyroPosition(0, 0, 0);
 
   late Socket socket;
-
-  // late IOWebSocketChannel channel;
-
-  String positionStr = "";
-
-  void sendPos(Map<String, dynamic> data) async {
-
-  }
 
   void setListener() async {
     socket = await Socket.connect(ConnectionStrings.serverHostname,
@@ -55,24 +46,13 @@ class _MagicPointerScreenState extends State<MagicPointerScreen> {
 
     accEvent = accelerometerEvents.listen((event) {
       current.setPosition(event.x, event.y, event.z);
-
-      double deltaX = current.x - previous.x;
-      double deltaY = current.y - previous.y;
-      double deltaZ = current.z - previous.z;
-
-      GyroPosition deltaPosition = GyroPosition(deltaX, deltaY, deltaZ);
-
-      socket.writeln("/set_pos ${deltaPosition.toString()}");
-
-      // channel.sink.add("$deltaX,$deltaY,$deltaZ");
-      previous.setPosition(current.x, current.y, current.z);
+      socket.writeln("/set_pos ${current.toString()}");
     });
   }
 
   @override
   void initState() {
     super.initState();
-    // channel = IOWebSocketChannel.connect(ConnectionStrings.getMouseSocketApiUrl());
     setListener();
   }
 
@@ -90,14 +70,17 @@ class _MagicPointerScreenState extends State<MagicPointerScreen> {
     final mediaQuery = MediaQuery.of(context);
     final buttonWidth = mediaQuery.size.width * 0.3;
 
+    void sendPrimaryClick() {
+      socket.writeln("/primary_button");
+    }
+
+    void sendSecondaryClick() {
+      socket.writeln("/secondary_button");
+    }
+
     final buttons = [
-      MainButton(
-        width: buttonWidth,
-        function: () {},
-        child: const Text("Botón 1"),),
-      MainButton(width: buttonWidth,
-          function: () {},
-          child: const Text("Botón 2"))
+      MagicPointerButton(width: buttonWidth, label: "Botón 1", function: sendPrimaryClick,),
+      MagicPointerButton(width: buttonWidth, label: "Botón 2", function: sendSecondaryClick)
     ];
 
     return Scaffold(
@@ -118,5 +101,18 @@ class _MagicPointerScreenState extends State<MagicPointerScreen> {
         ],
       )
     );
+  }
+}
+
+class MagicPointerButton extends StatelessWidget {
+  const MagicPointerButton({super.key, required this.width, this.label = "", this.function});
+  final double width;
+  final String label;
+  final void Function()? function;
+
+  @override
+  Widget build(BuildContext context) {
+    final labelText = Text(label, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 16),);
+    return MainButton(width: width, function: function, child: labelText,);
   }
 }
