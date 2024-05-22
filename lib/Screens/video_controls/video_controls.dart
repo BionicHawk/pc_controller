@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 import 'package:pc_controller/api/api.dart';
 import 'package:pc_controller/components/alerts.dart';
 import 'package:pc_controller/components/custom_field.dart';
