@@ -14,10 +14,13 @@ class PageSwitcher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
+    final mediaQ = MediaQuery.of(context);
+    final size = mediaQ.size;
+
     return Container(
-      margin: const EdgeInsets.all(16),
+      margin: const EdgeInsets.all(32),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(size.width / 2),
         color: const Color(0xff202020)
       ),
       child: Center(

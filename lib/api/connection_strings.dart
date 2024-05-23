@@ -30,6 +30,10 @@ class ConnectionStrings {
   static String _getVideoControlApiUrl() {
     return "${_resolveHostname()}set/video";
   }
+  
+  static String _getSlideShowApiUrl() {
+    return "${_resolveHostname()}set/slides";
+  }
 
   static String getMouseSocketApiUrl() {
     return "${_resolveWebSocketName()}/set/mouse";
@@ -85,6 +89,27 @@ class ConnectionStrings {
 
   static String toggleFullscreenVideoApiUrl() {
     return "${_getVideoControlApiUrl()}/fsn";
+  }
+
+  // SlideShow Controls
+  static String nextSlideUrl() {
+    return "${_getSlideShowApiUrl()}/next";
+  }
+  
+  static String prevSlideUrl() {
+    return "${_getSlideShowApiUrl()}/prev";
+  }
+ 
+  static String nextItemSlideUrl() {
+    return "${_getSlideShowApiUrl()}/forward";
+  }
+  
+  static String prevItemSlideUrl() {
+    return "${_getSlideShowApiUrl()}/rewind";
+  }
+
+  static String switchModeSlide() {
+    return "${_getSlideShowApiUrl()}/switchmode";
   }
 
   // Navigation Controls
