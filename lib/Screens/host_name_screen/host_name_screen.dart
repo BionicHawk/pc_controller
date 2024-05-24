@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:pc_controller/components/custom_field.dart';
 import 'package:pc_controller/components/main_button.dart';
@@ -17,30 +19,33 @@ class HostNameScreen extends StatelessWidget {
       Navigator.of(context).pop();
     }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              "Cambiar hostname",
-              style: TextStyle(fontSize: 21),
+    return BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2, tileMode: TileMode.decal),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                "Cambiar hostname",
+                style: TextStyle(fontSize: 21),
+              ),
             ),
-          ),
-          const Divider(),
-          CustomField(
-            labelText: "Ingrese el hostname:",
-            hintText: "EJ. 127.0.0.1",
-            textEditingController: hostnameLabel,
-          ),
-          verticalGap,
-          MainButton(
-            width: MediaQuery.of(context).size.width,
-            function: changeHostname,
-            child: const CustomTextButton(text: "Aplicar cambios"),
-          )
-        ],
+            const Divider(),
+            CustomField(
+              labelText: "Ingrese el hostname:",
+              hintText: "EJ. 127.0.0.1",
+              textEditingController: hostnameLabel,
+            ),
+            verticalGap,
+            MainButton(
+              width: MediaQuery.of(context).size.width,
+              function: changeHostname,
+              child: const CustomTextButton(text: "Aplicar cambios"),
+            )
+          ],
+        ),
       ),
     );
   }

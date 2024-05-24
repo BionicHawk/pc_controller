@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 Future<void> showAlert(BuildContext context, Widget icon, String title, String message) async {
@@ -9,13 +11,16 @@ Future<void> showAlert(BuildContext context, Widget icon, String title, String m
 
       TextButton okButton = TextButton(onPressed: closeAlert, child: const Text("Ok"));
 
-      return AlertDialog(
-        icon: icon,
-        title: Text(title),
-        content: Text(message),
-        actions: [
-          okButton
-        ],
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+        child: AlertDialog(
+          icon: icon,
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            okButton
+          ],
+        ),
       );
     });
 }

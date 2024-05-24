@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pc_controller/settings/theme.dart';
 
 class LargeButton extends StatelessWidget {
   const LargeButton({super.key, required this.icon, this.onPressed});
@@ -8,9 +9,14 @@ class LargeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+    final isLight = brightness == Brightness.light;
+    
+    final primaryColor = isLight ? CustomTheme.primaryColor : CustomThemeDark.primaryColor;
+
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.blue.shade400,
+        backgroundColor: primaryColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))
       ),
       onPressed: onPressed, 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pc_controller/Screens/slide_controls/components/large_button.dart';
+import 'package:pc_controller/settings/theme.dart';
 
 class PageSwitcher extends StatelessWidget {
   const PageSwitcher({
@@ -16,12 +17,17 @@ class PageSwitcher extends StatelessWidget {
     
     final mediaQ = MediaQuery.of(context);
     final size = mediaQ.size;
+    final brightness = Theme.of(context).brightness;
+    final isLight = brightness == Brightness.light;
+
+    // Theme Colors
+    final secondaryBackgroundColor = isLight ? CustomTheme.secondaryBackgroundColor : CustomThemeDark.secondaryBackgroundColor;
 
     return Container(
       margin: const EdgeInsets.all(32),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(size.width / 2),
-        color: const Color(0xff202020)
+        color: secondaryBackgroundColor
       ),
       child: Center(
         child: Padding(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pc_controller/settings/theme.dart';
 
 class MainHomeArt extends StatelessWidget {
   const MainHomeArt({
@@ -7,14 +8,22 @@ class MainHomeArt extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+    
+    final isLight = brightness == Brightness.light;
+
     const double width = 240;
     const double height = 240;
 
+    // Theme Colors
+    final primaryColor = isLight? CustomTheme.primaryColor : CustomThemeDark.primaryColor;
+    final secondBgColor = isLight? CustomTheme.secondaryBackgroundColor : CustomThemeDark.secondaryBackgroundColor;
+
     return Container(
       decoration: BoxDecoration(
-          color: Colors.black87,
+          color: secondBgColor,
           shape: BoxShape.circle,
-          border: Border.all(color: Colors.lightBlue, width: 8)
+          border: Border.all(color: primaryColor, width: 8)
       ),
       width: width,
       height: height,
