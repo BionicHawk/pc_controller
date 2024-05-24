@@ -12,14 +12,16 @@ class NavToButton extends StatelessWidget {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final double buttonWidth = mediaQuery.size.width * 0.8;
     const double buttonHeight = 51.0;
-
+    
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2.0),
       child: MainButton(
         width: buttonWidth,
         height: buttonHeight,
         function: onPress,
-        child: CustomTextButton(text: value),
+        child: CustomTextButton(
+          text: value
+        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pc_controller/settings/theme.dart';
 
 class MainButton extends StatelessWidget {
   const MainButton(
@@ -15,16 +16,28 @@ class MainButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+    final isLight = brightness == Brightness.light;
+
+    // Theme Colors
+    final primaryColor = isLight ? CustomTheme.primaryColor : CustomThemeDark.primaryColor;
+    
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-        onPressed: function ?? () {},
-        child: SizedBox(
-          width: width,
-          height: height,
-          child: Center(
-            child: child,
-          ),
-        ));
+      style: ElevatedButton.styleFrom(
+        backgroundColor: primaryColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16)
+        ),
+      ),
+      onPressed: function ?? () {},
+      child: SizedBox(
+        width: width,
+        height: height,
+        child: Center(
+          child: child,
+        ),
+      )
+    );
   }
 }
 

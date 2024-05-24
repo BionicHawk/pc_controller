@@ -5,6 +5,7 @@ import 'package:pc_controller/Screens/Home/components/nav_to_button.dart';
 import 'package:pc_controller/Screens/SendPage/send_page.dart';
 import 'package:pc_controller/Screens/host_name_screen/host_name_screen.dart';
 import 'package:pc_controller/Screens/magic_pointer_screen/magic_pointer_screen.dart';
+import 'package:pc_controller/Screens/slide_controls/slide_controls.dart';
 import 'package:pc_controller/Screens/video_controls/video_controls.dart';
 
 class Home extends StatelessWidget {
@@ -14,10 +15,14 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void changeHostname() async {
+
+      final mediaQ = MediaQuery.of(context);
+      final width = mediaQ.size.width;  
+
       await showModalBottomSheet(
           context: context,
           builder: (context) => SizedBox(
-                width: MediaQuery.of(context).size.width,
+                width: width,
                 child: const HostNameScreen(),
               ));
     }
@@ -25,28 +30,52 @@ class Home extends StatelessWidget {
     void navigateToSendWebPage() {
       Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (BuildContext context) => const SendPage()));
+          MaterialPageRoute(builder: (context) => const SendPage())
+      );
     }
 
     void navigateToVideoControls() {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const VideoControl()));
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const VideoControl())
+      );
+    }
+    
+    void navigateToSlideShowControls() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const SlideControlsScreen()) 
+      );
     }
 
-    // ignore: unused_element
     void navigateToMagicPointerScreen() {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const MagicPointerScreen()));
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const MagicPointerScreen())
+      );
     }
 
     final List<NavToButton> buttons = [
-      NavToButton(value: "Modificar Hostname", onPress: changeHostname),
       NavToButton(
-          value: "Abrir una página Web", onPress: navigateToSendWebPage),
+        value: "Modificar Hostname", 
+        onPress: changeHostname
+      ),
       NavToButton(
-          value: "Controles de vídeo", onPress: navigateToVideoControls),
-      NavToButton(value: "Usar Puntero Mágico", onPress: navigateToMagicPointerScreen)
+        value: "Abrir una página Web", 
+        onPress: navigateToSendWebPage
+      ),
+      NavToButton(
+        value: "Controles de vídeo", 
+        onPress: navigateToVideoControls
+      ),
+      NavToButton(
+        value: "Controles de presentación", 
+        onPress: navigateToSlideShowControls
+      ),
+      NavToButton(
+        value: "Usar Puntero Mágico", 
+        onPress: navigateToMagicPointerScreen
+      )
     ];
 
     return Scaffold(
