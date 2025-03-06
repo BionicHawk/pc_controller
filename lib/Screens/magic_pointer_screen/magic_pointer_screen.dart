@@ -4,6 +4,8 @@ import 'package:pc_controller/components/main_button.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:pc_controller/api/connection_strings.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
+import 'dart:convert' show utf8;
 
 class GyroPosition {
   double x;
@@ -44,9 +46,11 @@ class _MagicPointerScreenState extends State<MagicPointerScreen> {
     socket = await Socket.connect(ConnectionStrings.serverHostname,
         ConnectionStrings.mouseTrackerPort);
 
-    accEvent = accelerometerEvents.listen((event) {
+    accEvent = accelerometerEvents
+        .throttleTime(const Duration(milliseconds: 10)) // Ajusta según pruebas
+        .listen((event) {
       current.setPosition(event.x, event.y, event.z);
-      socket.writeln("/set_pos ${current.toString()}");
+      socket.add(utf8.encode("/set_pos ${current.toString()}\n"));
     });
   }
 
