@@ -23,7 +23,7 @@ class HostNameScreen extends StatelessWidget {
       filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2, tileMode: TileMode.decal),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
+        child: ListView(
           children: [
             const Padding(
               padding: EdgeInsets.all(8.0),

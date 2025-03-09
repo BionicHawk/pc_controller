@@ -7,6 +7,8 @@ import 'package:pc_controller/Screens/host_name_screen/host_name_screen.dart';
 import 'package:pc_controller/Screens/magic_pointer_screen/magic_pointer_screen.dart';
 import 'package:pc_controller/Screens/slide_controls/slide_controls.dart';
 import 'package:pc_controller/Screens/video_controls/video_controls.dart';
+import 'package:pc_controller/api/connection_strings.dart';
+import 'package:pc_controller/components/alerts.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -49,6 +51,11 @@ class Home extends StatelessWidget {
     }
 
     void navigateToMagicPointerScreen() {
+      if (ConnectionStrings.serverHostname.isEmpty) {
+        errorAlert(context, "IP no seleccionada", "La ip no ha sido configurada y por lo tanto no puede acceder al punto remoto, por favor configurelo");
+        return;
+      }
+
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const MagicPointerScreen())
@@ -89,7 +96,8 @@ class Home extends StatelessWidget {
             const MainTitle(value: "Seleccione una de las opciones"),
             const MainHomeArt(),
             const Expanded(child: Column()),
-            ...buttons
+            ...buttons,
+            const SizedBox(height: 32, width: double.minPositive,)
           ],
         ));
   }

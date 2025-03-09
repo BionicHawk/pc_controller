@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:pc_controller/components/main_button.dart';
+import 'package:pc_controller/components/messages.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:pc_controller/api/connection_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
-import 'dart:convert' show utf8;
 
 class GyroPosition {
   double x;
@@ -34,24 +34,37 @@ class MagicPointerScreen extends StatefulWidget {
 }
 
 class _MagicPointerScreenState extends State<MagicPointerScreen> {
+  final delayTime = const Duration(milliseconds: 10);
   final Uri wsUri = Uri.parse(ConnectionStrings.getMouseSocketApiUrl());
-  late StreamSubscription<AccelerometerEvent> accEvent;
-  late StreamSubscription channelSubscription;
+  StreamSubscription<AccelerometerEvent>? accEvent;
 
   final GyroPosition current = GyroPosition(0, 0, 0);
 
-  late Socket socket;
+  Socket? socket;
+
+  void onMovement(AccelerometerEvent event) {
+    if (socket != null) {
+      current.setPosition(event.x, event.y, event.z);
+      print(current.toString());
+      socket!.write("/set_pos ${current.toString()}");
+    }
+  }
 
   void setListener() async {
-    socket = await Socket.connect(ConnectionStrings.serverHostname,
-        ConnectionStrings.mouseTrackerPort);
+    try {
+      socket ??= await Socket.connect(ConnectionStrings.serverHostname,
+            ConnectionStrings.mouseTrackerPort);
 
-    accEvent = accelerometerEvents
-        .throttleTime(const Duration(milliseconds: 10)) // Ajusta según pruebas
-        .listen((event) {
-      current.setPosition(event.x, event.y, event.z);
-      socket.add(utf8.encode("/set_pos ${current.toString()}\n"));
-    });
+      accEvent ??= accelerometerEventStream()
+                                      .throttleTime(delayTime)
+                                      .listen(onMovement);
+    } catch (_) {
+      if (context.mounted) {
+        errMessage(context, "No se pudo establecer conexión al escritorio");
+        Navigator.of(context).pop();
+      }
+    }
+
   }
 
   @override
@@ -62,10 +75,15 @@ class _MagicPointerScreenState extends State<MagicPointerScreen> {
 
   @override
   void dispose() {
-    accEvent.cancel();
-    socket.close();
+    accEvent?.cancel();
+    socket?.close();
+
+    // if (socket.)
+
     super.dispose();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -75,11 +93,11 @@ class _MagicPointerScreenState extends State<MagicPointerScreen> {
     final buttonWidth = mediaQuery.size.width * 0.3;
 
     void sendPrimaryClick() {
-      socket.writeln("/primary_button");
+      socket?.writeln("/primary_button");
     }
 
     void sendSecondaryClick() {
-      socket.writeln("/secondary_button");
+      socket?.writeln("/secondary_button");
     }
 
     final buttons = [
