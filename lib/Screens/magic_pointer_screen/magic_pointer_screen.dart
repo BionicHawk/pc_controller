@@ -41,6 +41,7 @@ class _MagicPointerScreenState extends State<MagicPointerScreen> {
   final GyroPosition current = GyroPosition(0, 0, 0);
 
   Socket? socket;
+  bool loading = false;
 
   void onMovement(AccelerometerEvent event) {
     if (socket != null) {
@@ -51,7 +52,14 @@ class _MagicPointerScreenState extends State<MagicPointerScreen> {
   }
 
   void setListener() async {
+    setState(() {
+      loading = true;
+    });
+
     try {
+      if (socket != null) {
+        socket = null;
+      }
       socket ??= await Socket.connect(ConnectionStrings.serverHostname,
             ConnectionStrings.mouseTrackerPort);
 
@@ -65,6 +73,9 @@ class _MagicPointerScreenState extends State<MagicPointerScreen> {
       }
     }
 
+    setState(() {
+      loading = false;
+    });
   }
 
   @override
@@ -76,7 +87,7 @@ class _MagicPointerScreenState extends State<MagicPointerScreen> {
   @override
   void dispose() {
     accEvent?.cancel();
-    socket?.close();
+    socket?.destroy();
 
     // if (socket.)
 
@@ -110,18 +121,33 @@ class _MagicPointerScreenState extends State<MagicPointerScreen> {
         title: const Text("Magic Pointer"),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          const Expanded(child: Column()),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: verticalPaddingValue),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: buttons,
-            ),
-          )
-        ],
-      )
+      body:
+        loading ?
+        Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: CircularProgressIndicator(color: Colors.cyanAccent,),
+                ),
+                Text("Estableciendo conexión, espere...")
+              ],
+            )
+        )
+        :
+        Column(
+          children: [
+            const Expanded(child: Column()),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: verticalPaddingValue),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: buttons,
+              ),
+            )
+          ],
+        )
     );
   }
 }
