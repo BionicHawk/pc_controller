@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:pc_controller/api/api.dart';
+import 'package:pc_controller/api/audio_video/audio_video.service.dart';
 import 'package:pc_controller/components/alerts.dart';
 import 'package:pc_controller/components/custom_field.dart';
 import 'package:pc_controller/components/main_button.dart';
 import 'package:pc_controller/api/connection_strings.dart';
+import 'package:pc_controller/components/messages.dart';
 
 class VideoControl extends StatelessWidget {
-  const VideoControl({super.key});
+  VideoControl({super.key});
+
+  final _audioVideoService = AudioVideoService();
 
   static TextEditingController textController = TextEditingController();
 
@@ -81,7 +85,10 @@ class VideoControl extends StatelessWidget {
     }
 
     void volumeUp() async {
-      sendBasicCommand(ConnectionStrings.setVolumeUpApiUrl());
+      final result = await _audioVideoService.setVolume(increase: true);
+      if (!result.success && context.mounted) {
+        errMessage(context, result.message ?? "");
+      }
     }
 
     void volumeMute() async {

@@ -8,7 +8,7 @@ import 'package:pc_controller/api/connection_strings.dart';
 class HostNameScreen extends StatelessWidget {
   const HostNameScreen({super.key});
 
-  static TextEditingController hostnameLabel = TextEditingController();
+  static TextEditingController hostnameLabel = TextEditingController(text: ConnectionStrings.getHostName());
 
   @override
   Widget build(BuildContext context) {
@@ -19,33 +19,30 @@ class HostNameScreen extends StatelessWidget {
       Navigator.of(context).pop();
     }
 
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2, tileMode: TileMode.decal),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: ListView(
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                "Cambiar hostname",
-                style: TextStyle(fontSize: 21),
-              ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: ListView(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              "Cambiar hostname",
+              style: TextStyle(fontSize: 21),
             ),
-            const Divider(),
-            CustomField(
-              labelText: "Ingrese el hostname:",
-              hintText: "EJ. 127.0.0.1",
-              textEditingController: hostnameLabel,
-            ),
-            verticalGap,
-            MainButton(
-              width: MediaQuery.of(context).size.width,
-              function: changeHostname,
-              child: const CustomTextButton(text: "Aplicar cambios"),
-            )
-          ],
-        ),
+          ),
+          const Divider(),
+          CustomField(
+            labelText: "Ingrese el hostname:",
+            hintText: "EJ. 127.0.0.1",
+            textEditingController: hostnameLabel,
+          ),
+          verticalGap,
+          MainButton(
+            width: MediaQuery.of(context).size.width,
+            function: changeHostname,
+            child: const CustomTextButton(text: "Aplicar cambios"),
+          )
+        ],
       ),
     );
   }

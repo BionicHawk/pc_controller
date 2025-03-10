@@ -87,14 +87,11 @@ class _MagicPointerScreenState extends State<MagicPointerScreen> {
   @override
   void dispose() {
     accEvent?.cancel();
-    socket?.destroy();
-
-    // if (socket.)
+    socket?.write("exit");
+    socket?.close();
 
     super.dispose();
   }
-
-
 
   @override
   Widget build(BuildContext context) {

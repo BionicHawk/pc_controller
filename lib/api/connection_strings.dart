@@ -11,7 +11,7 @@ class ConnectionStrings {
     return serverHostname;
   }
 
-  static String _resolveHostname() {
+  static String resolveHostname() {
     return "http://$serverHostname:$_port/";
   }
 
@@ -20,19 +20,19 @@ class ConnectionStrings {
   }
 
   static String getOpenWebApiUrl() {
-    return "${_resolveHostname()}open/web";
+    return "${resolveHostname()}open/web";
   }
 
   static String _getSetVolumeApiUrl() {
-    return "${_resolveHostname()}set/volume";
+    return "${resolveHostname()}set/volume";
   }
 
   static String _getVideoControlApiUrl() {
-    return "${_resolveHostname()}set/video";
+    return "${resolveHostname()}set/video";
   }
   
   static String _getSlideShowApiUrl() {
-    return "${_resolveHostname()}set/slides";
+    return "${resolveHostname()}set/slides";
   }
 
   static String getMouseSocketApiUrl() {
@@ -40,15 +40,15 @@ class ConnectionStrings {
   }
 
   static String _getNavigationApiUrl() {
-    return "${_resolveHostname()}set/navigation";
+    return "${resolveHostname()}set/navigation";
   }
 
   static String getTypeApiUrl() {
-    return "${_resolveHostname()}typing";
+    return "${resolveHostname()}typing";
   }
 
   static String getMouseSetterApiUrl() {
-    return "${_resolveHostname()}set/mouse";
+    return "${resolveHostname()}set/mouse";
   }
 
   // Audio controls

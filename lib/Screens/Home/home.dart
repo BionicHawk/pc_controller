@@ -3,8 +3,8 @@ import 'package:pc_controller/Screens/Home/components/main_home_art.dart';
 import 'package:pc_controller/Screens/Home/components/main_title.dart';
 import 'package:pc_controller/Screens/Home/components/nav_to_button.dart';
 import 'package:pc_controller/Screens/SendPage/send_page.dart';
-import 'package:pc_controller/Screens/host_name_screen/host_name_screen.dart';
 import 'package:pc_controller/Screens/magic_pointer_screen/magic_pointer_screen.dart';
+import 'package:pc_controller/Screens/settings_screen/settings_screen.dart';
 import 'package:pc_controller/Screens/slide_controls/slide_controls.dart';
 import 'package:pc_controller/Screens/video_controls/video_controls.dart';
 import 'package:pc_controller/api/connection_strings.dart';
@@ -16,57 +16,50 @@ class Home extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    void changeHostname() async {
+    void changeHostname() {
+      Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => SettingsScreen()));
 
-      final mediaQ = MediaQuery.of(context);
-      final width = mediaQ.size.width;  
+      // final mediaQ = MediaQuery.of(context);
+      // final width = mediaQ.size.width;  
 
-      await showModalBottomSheet(
-          context: context,
-          builder: (context) => SizedBox(
-                width: width,
-                child: const HostNameScreen(),
-              ));
+      // showDialog(
+      //     context: context,
+      //     builder: (context) => AlertDialog(
+      //       title: Text("Modificar el hostname"),
+      //       content: const HostNameScreen(),
+      //     ));
     }
 
-    void navigateToSendWebPage() {
-      Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const SendPage())
-      );
-    }
-
-    void navigateToVideoControls() {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const VideoControl())
-      );
-    }
-    
-    void navigateToSlideShowControls() {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const SlideControlsScreen()) 
-      );
-    }
-
-    void navigateToMagicPointerScreen() {
+    void navigateToConnectedPage(Widget page) {
       if (ConnectionStrings.serverHostname.isEmpty) {
         errorAlert(context, "IP no seleccionada", "La ip no ha sido configurada y por lo tanto no puede acceder al punto remoto, por favor configurelo");
         return;
       }
 
       Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const MagicPointerScreen())
+          context,
+          MaterialPageRoute(builder: (context) => page)
       );
     }
 
+    void navigateToSendWebPage() {
+      navigateToConnectedPage(const SendPage());
+    }
+
+    void navigateToVideoControls() {
+      navigateToConnectedPage(VideoControl());
+    }
+    
+    void navigateToSlideShowControls() {
+      navigateToConnectedPage(const SlideControlsScreen());
+    }
+
+    void navigateToMagicPointerScreen() {
+      navigateToConnectedPage(const MagicPointerScreen());
+    }
+
     final List<NavToButton> buttons = [
-      NavToButton(
-        value: "Modificar Hostname", 
-        onPress: changeHostname
-      ),
       NavToButton(
         value: "Abrir una página Web", 
         onPress: navigateToSendWebPage
@@ -82,7 +75,11 @@ class Home extends StatelessWidget {
       NavToButton(
         value: "Usar Puntero Mágico", 
         onPress: navigateToMagicPointerScreen
-      )
+      ),
+      NavToButton(
+        value: "Configuración", 
+        onPress: changeHostname
+      ),
     ];
 
     return Scaffold(

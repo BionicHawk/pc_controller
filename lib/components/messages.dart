@@ -26,3 +26,32 @@ void errMessage(BuildContext context, String message) {
       )
   );
 }
+
+
+void okMessage(BuildContext context, String message) {
+  ScaffoldMessenger.of(context)
+      .showSnackBar(
+      SnackBar(
+        content: Row(
+          spacing: 8.0,
+          children: [
+            Icon(Icons.check_circle_outline_outlined, color: Colors.green,),
+            Expanded(
+              child: Text(message,
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+        duration: Duration(seconds: 5),
+        behavior: SnackBarBehavior.floating,
+        elevation: 8.0,
+        backgroundColor: Color.fromARGB(240, 40, 40, 40),
+        shape: RoundedRectangleBorder(
+
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        ),
+      )
+  );
+}
+
