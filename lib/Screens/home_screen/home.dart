@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pc_controller/Screens/Home/components/main_home_art.dart';
-import 'package:pc_controller/Screens/Home/components/main_title.dart';
-import 'package:pc_controller/Screens/Home/components/nav_to_button.dart';
-import 'package:pc_controller/Screens/SendPage/send_page.dart';
+import 'package:pc_controller/Screens/home_screen/components/main_home_art.dart';
+import 'package:pc_controller/Screens/home_screen/components/main_title.dart';
+import 'package:pc_controller/Screens/home_screen/components/nav_to_button.dart';
+import 'package:pc_controller/Screens/sendpage_screen/send_page.dart';
 import 'package:pc_controller/Screens/magic_pointer_screen/magic_pointer_screen.dart';
 import 'package:pc_controller/Screens/settings_screen/settings_screen.dart';
 import 'package:pc_controller/Screens/slide_controls/slide_controls.dart';
@@ -20,15 +20,6 @@ class Home extends StatelessWidget {
       Navigator.of(context)
                 .push(MaterialPageRoute(builder: (context) => SettingsScreen()));
 
-      // final mediaQ = MediaQuery.of(context);
-      // final width = mediaQ.size.width;  
-
-      // showDialog(
-      //     context: context,
-      //     builder: (context) => AlertDialog(
-      //       title: Text("Modificar el hostname"),
-      //       content: const HostNameScreen(),
-      //     ));
     }
 
     void navigateToConnectedPage(Widget page) {
@@ -44,7 +35,7 @@ class Home extends StatelessWidget {
     }
 
     void navigateToSendWebPage() {
-      navigateToConnectedPage(const SendPage());
+      navigateToConnectedPage(const SendpageScreen());
     }
 
     void navigateToVideoControls() {

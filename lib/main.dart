@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pc_controller/Screens/Home/home.dart';
-import 'package:pc_controller/Screens/settings_screen/settings_screen.dart';
-import 'package:pc_controller/api/connection_strings.dart';
+import 'package:pc_controller/Screens/home_screen/home.dart';
 import 'package:pc_controller/api/settings/settings.service.dart';
 import 'package:pc_controller/settings/theme.dart';
 

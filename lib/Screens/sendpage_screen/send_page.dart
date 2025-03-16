@@ -4,8 +4,8 @@ import 'package:pc_controller/components/custom_field.dart';
 import 'package:pc_controller/components/main_button.dart';
 import 'package:pc_controller/components/alerts.dart';
 
-class SendPage extends StatelessWidget {
-  const SendPage({super.key});
+class SendpageScreen extends StatelessWidget {
+  const SendpageScreen({super.key});
 
   static final textEditingController = TextEditingController();
 

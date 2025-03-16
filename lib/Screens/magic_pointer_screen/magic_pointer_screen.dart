@@ -46,7 +46,6 @@ class _MagicPointerScreenState extends State<MagicPointerScreen> {
   void onMovement(AccelerometerEvent event) {
     if (socket != null) {
       current.setPosition(event.x, event.y, event.z);
-      print(current.toString());
       socket!.write("/set_pos ${current.toString()}");
     }
   }
